@@ -12,6 +12,9 @@ import java.util.Optional;
 @Repository
 public interface DroneRepository extends JpaRepository<DroneEntity, Long> {
 
+    @Query(value = "SELECT DroneEntity FROM DroneEntity")
+    List<DroneEntity> findAllEntities();
+
     @Query(value = "SELECT DroneEntity FROM DroneEntity drone WHERE drone.serialNumber =:serialNumber")
     Optional<DroneEntity> findDroneEntityBySerialNumber(@Param("serialNumber") String serialNumber);
 

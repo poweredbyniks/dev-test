@@ -25,7 +25,7 @@ public class DroneMedicationController {
         this.droneMedicationService = droneMedicationService;
     }
 
-    @GetMapping("${service.mapping.load-drone-post}")
+    @GetMapping("${service.mapping.check-drone-load-get}")
     public ResponseEntity<DroneMedicationDto> checkLoad(@PathVariable String serialNumber) {
         final DroneMedicationDto droneMedicationDto = droneMedicationService.handleCheckLoad(serialNumber);
         return new ResponseEntity<>(droneMedicationDto, HttpStatus.OK);

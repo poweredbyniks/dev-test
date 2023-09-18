@@ -76,8 +76,9 @@ service:
   mapping:
     common: ${COMMON_MAPPING_VALUE:/api}
     register-drone-post: ${REGISTER_DRONE_POST:/v1/drones}
-    load-drone-post: ${LOAD_DRONE_PATCH:/v1/drone/{}/medicines}
-    get-all-available-drones: ${GET_ALL_AVAILABLE_DRONES:/v1/drones}
+    load-drone-post: ${LOAD_DRONE_POST:/v1/drone/{}/medicines}
+    check-drone-load-get: ${CHECK_DRONE_LOAD_GET:/v1/drone/{}/load}
+    get-all-available-drones: ${GET_ALL_AVAILABLE_DRONES:/v1/available-drones}
     get-drone-battery-capacity: ${GET_DRONE_BATTERY_CAPACITY:/v1/drone/{}/capacity}
 
   const:
