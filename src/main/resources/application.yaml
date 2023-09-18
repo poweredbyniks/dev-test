@@ -1,0 +1,97 @@
+spring:
+  application:
+    name: ${SERVICE_NAME:dev-drones}
+  main:
+    web-application-type: servlet
+
+  liquibase:
+    enabled: true
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/gghqdb}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASS:niks}
+    hikari:
+      max-lifetime: 30000
+      allow-pool-suspension: true
+      connection-timeout: 30000
+      schema: ${DB_SCHEMA:public}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      format_sql: false
+      javax:
+        persistence:
+          validation:
+            mode: NONE
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+
+server:
+  port: 8080
+
+management:
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+
+msa:
+  meta:
+    microserviceName: ${spring.application.name}
+  mdc-logging:
+    appender:
+      fluentd:
+        enabled: ${FLUENTD_ENABLED:true}
+        host: ${FLUENTD_HOST:localhost}
+        port: ${FLUENTD_PORT:28888}
+        tag: ${spring.application.name}
+        message-format: ${FLUENTD_TYPE:LOGS_COLLECTOR}
+
+springdoc:
+  api-docs:
+    path: /api-docs
+    enabled: true
+  swagger-ui:
+    enabled: true
+    use-root-path: true
+    display-request-duration: true
+
+webclient:
+  common:
+    timeout:
+      read: ${DEFAULT_WEB_CLIENT_READ_TIMEOUT:20000}
+      write: ${DEFAULT_WEB_CLIENT_WRITE_TIMEOUT:20000}
+      connection: ${DEFAULT_WEB_CLIENT_CONNECTION_TIMEOUT:20000}
+    retry-count: 1
+    retry-delay: 500
+
+service:
+  mapping:
+    common: ${COMMON_MAPPING_VALUE:/api}
+    register-drone-post: ${REGISTER_DRONE_POST:/v1/drones}
+    load-drone-post: ${LOAD_DRONE_PATCH:/v1/drone/medicines}
+
+  const:
+    otp-value: ${OTP_VALUE_PARAM_NAME:value}
+
+  request:
+    account-id-header-name: ${REQUEST_ACCOUNT_ID_HEADER_NAME:account-id}
+    product-id-header-name: ${REQUEST_PRODUCT_ID_HEADER_NAME:productId}
+    process-id-header-name: ${REQUEST_PROCESS_ID_HEADER_NAME:process-Id}
+    application-id-header-name: ${REQUEST_APPLICATION_ID_HEADER_NAME:applicationId}
+    session-id-header-name: ${SESSION_ID_HEADER_NAME:sessionId}
+    type-param-name: type
+    amount-param-name: amount
+    date-param-name: date
+    with-monthly-payment-reduction-param-name: withMonthlyPaymentReduction
+
+headers:
+  process-id-header-name: ${REQUESTS_PROCESS_ID_HEADER_NAME:X-Process-Id}
+
