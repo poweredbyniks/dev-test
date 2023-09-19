@@ -30,7 +30,7 @@ public class DtoMapperImpl implements DtoMapper {
         droneDto.setSerialNumber(droneEntity.getSerialNumber());
         droneDto.setModel(droneEntity.getModel());
         if (droneEntity.getWeightLimit() != null) {
-            droneDto.setWeightLimit(Integer.parseInt(droneEntity.getWeightLimit()));
+            droneDto.setWeightLimit(droneEntity.getWeightLimit());
         }
         droneDto.setBatteryCapacity(droneEntity.getBatteryCapacity());
         droneDto.setState(droneEntity.getState());
@@ -49,7 +49,7 @@ public class DtoMapperImpl implements DtoMapper {
         droneEntity.serialNumber(drone.getSerialNumber());
         droneEntity.model(drone.getModel());
         if (drone.getWeightLimit() != null) {
-            droneEntity.weightLimit(String.valueOf(drone.getWeightLimit()));
+            droneEntity.weightLimit(drone.getWeightLimit());
         }
         droneEntity.batteryCapacity(drone.getBatteryCapacity());
         droneEntity.state(drone.getState());

@@ -39,7 +39,7 @@ public class DroneEntity {
     private Model model;
 
     @Column(name = "weight_limit")
-    private String weightLimit;
+    private Integer weightLimit;
 
     @Column(name = "battery_capacity")
     private Integer batteryCapacity;
