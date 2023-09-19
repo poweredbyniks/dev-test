@@ -41,7 +41,7 @@ public class DroneController {
     }
 
     @PostMapping("${service.mapping.register-drone-post}")
-    public ResponseEntity<String> registerDrone(@RequestHeader String processId, @Valid @RequestBody DroneDto drone) {
+    public ResponseEntity<String> registerDrone(@RequestHeader(required = false) String processId, @Valid @RequestBody DroneDto drone) {
         log.info("Received POST request /drones");
         droneService.handleRegisterRequest(drone);
         return new ResponseEntity<>(HttpStatus.CREATED);

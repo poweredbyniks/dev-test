@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -23,14 +24,14 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 @Entity
-@Table(name = "drone")
+@Table(name = "drones")
 public class DroneEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "serial_number")
+    @Column(name = "serial_number", unique = true)
     private String serialNumber;
 
     @Enumerated(EnumType.STRING)
@@ -47,7 +48,7 @@ public class DroneEntity {
     @Column(name = "state")
     private State state;
 
-    @OneToMany(mappedBy = "drones")
+    @OneToMany(mappedBy = "drones", cascade = CascadeType.ALL)
     private Set<MedicationEntity> medicationEntities;
 
 }

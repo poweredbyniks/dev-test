@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -24,21 +25,21 @@ public class DroneDto implements Serializable {
     @JsonProperty(value = "serialNumber")
     private String serialNumber;
 
-    @NotBlank(message = "model is required")
+    @NotNull(message = "model is required")
     @JsonProperty(value = "model")
     private Model model;
 
     @DecimalMax(value = "500", inclusive = true, message = "weightLimit must be equal or less than 500gr")
-    @NotBlank(message = "weightLimit is required")
+    @NotNull(message = "weightLimit is required")
     @JsonProperty(value = "weightLimit")
     private Integer weightLimit;
 
-    @NotBlank(message = "batteryCapacity is required")
-    @DecimalMax(value = "500", inclusive = true, message = "batteryCapacity must be equal or less than 100 %")
+    @NotNull(message = "batteryCapacity is required")
+    @DecimalMax(value = "100", inclusive = true, message = "batteryCapacity must be equal or less than 100 %")
     @JsonProperty(value = "batteryCapacity")
     private Integer batteryCapacity;
 
-    @NotBlank(message = "state is required")
+    @NotNull(message = "state is required")
     @JsonProperty(value = "state")
     private State state;
 

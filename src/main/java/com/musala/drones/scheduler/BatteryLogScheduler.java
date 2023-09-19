@@ -13,7 +13,7 @@ public class BatteryLogScheduler {
         this.batteryLogService = batteryLogService;
     }
 
-    @Scheduled(initialDelay = 10, fixedDelay = 10)
+    @Scheduled(initialDelay = 60000, fixedDelay = 60000)
     public void runTask() {
         batteryLogService.checkAndLogBatteryCapacity();
     }

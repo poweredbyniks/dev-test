@@ -1,7 +1,7 @@
 package com.musala.drones.controller;
 
 import com.musala.drones.dto.CommonErrorDto;
-import com.musala.drones.exception.InternalServerErrorException;
+import com.musala.drones.exception.BadRequestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -27,47 +27,46 @@ public class RepaymentApplicationControllerAdvice extends ResponseEntityExceptio
     private String serviceName;
 
 
-    @ExceptionHandler(InternalServerErrorException.class)
-    public ResponseEntity<CommonErrorDto> handleInternalServerErrorException(InternalServerErrorException e) {
-        log.error("{} InternalServerErrorException, preparing error response: {}", e.getCommonError().getProcessId(), e.getCommonError().getMessage());
-
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<CommonErrorDto> handleBadRequestException(BadRequestException e) {
+        log.error("BadRequestException, preparing error response: {}", e.getMessage());
+        return new ResponseEntity<>(buildCommonErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     public ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        log.error("MethodArgumentNotValidException, preparing error response: {}", ex.getMessage());
-        return new ResponseEntity<>(buildCommonErrorResponseBadRequest(), HttpStatus.BAD_REQUEST);
+        log.error("MissingPathVariableException, preparing error response: {}", ex.getMessage());
+        return new ResponseEntity<>(buildCommonErrorResponse(ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     public ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        log.error("MethodArgumentNotValidException, preparing error response: {}", ex.getMessage());
-        return new ResponseEntity<>(buildCommonErrorResponseBadRequest(), HttpStatus.BAD_REQUEST);
+        log.error("MissingServletRequestParameterException, preparing error response: {}", ex.getMessage());
+        return new ResponseEntity<>(buildCommonErrorResponse(ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         log.error("MethodArgumentNotValidException, preparing error response: {}", ex.getMessage());
-        return new ResponseEntity<>(buildCommonErrorResponseBadRequest(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(buildCommonErrorResponse(ex.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @Override
     public ResponseEntity<Object> handleServletRequestBindingException(ServletRequestBindingException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         log.error("MissingRequestHeaderException, preparing error response: {}", ex.getMessage());
-        return new ResponseEntity<>(buildCommonErrorResponseBadRequest(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(buildCommonErrorResponse(ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @Override
-    public ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        log.error("HttpMessageNotReadableException, preparing error response: {}", e.getMessage());
-        return new ResponseEntity<>(buildCommonErrorResponseBadRequest(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        log.error("HttpMessageNotReadableException, preparing error response: {}", ex.getMessage());
+        return new ResponseEntity<>(buildCommonErrorResponse(ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
 
-    private CommonErrorDto buildCommonErrorResponseBadRequest() {
+    private CommonErrorDto buildCommonErrorResponse(String message) {
         final CommonErrorDto response = new CommonErrorDto();
         response.setTimestamp(Instant.now());
         response.setService(serviceName);
-        response.setMessage(HttpStatus.BAD_REQUEST.getReasonPhrase());
+        response.setMessage(message);
         return response;
     }
 }

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,7 +25,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 @Entity
-@Table(name = "medication")
+@Table(name = "medications")
 public class MedicationEntity {
 
     @Id

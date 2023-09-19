@@ -32,7 +32,7 @@ public class DroneMedicationController {
     }
 
     @PostMapping("${service.mapping.load-drone-post}")
-    public ResponseEntity<String> loadDrone(@RequestHeader String processId,
+    public ResponseEntity<String> loadDrone(@RequestHeader(required = false) String processId,
                                             @PathVariable String serialNumber,
                                             @RequestBody MedicationDto medications) {
         droneMedicationService.handleLoadRequest(serialNumber, medications);

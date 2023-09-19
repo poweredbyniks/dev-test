@@ -2,13 +2,14 @@ package com.musala.drones.service.impl;
 
 import com.musala.drones.dto.DroneBatteryCapacityDto;
 import com.musala.drones.dto.DroneDto;
-import com.musala.drones.exception.InternalServerErrorException;
+import com.musala.drones.exception.BadRequestException;
 import com.musala.drones.model.DroneEntity;
+import com.musala.drones.model.State;
 import com.musala.drones.repository.DroneRepository;
 import com.musala.drones.service.DroneService;
 import com.musala.drones.util.DtoMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,9 +23,6 @@ import java.util.Optional;
 @Service
 public class DroneServiceImpl implements DroneService {
 
-    @Value("${service.const.drone-state}")
-    private String droneState;
-
     private final DroneRepository droneRepository;
 
     private final DtoMapper dtoMapper;
@@ -37,7 +35,7 @@ public class DroneServiceImpl implements DroneService {
     @Override
     public List<DroneDto> handleFindAllDrones() {
         final List<DroneDto> drones = new ArrayList<>();
-        droneRepository.findAllByState(droneState).forEach(droneEntity -> drones.add(dtoMapper.droneEntityToDtoDrone(droneEntity)));
+        droneRepository.findAllByState(State.IDLE).forEach(droneEntity -> drones.add(dtoMapper.droneEntityToDtoDrone(droneEntity)));
         return drones;
     }
 
@@ -55,17 +53,19 @@ public class DroneServiceImpl implements DroneService {
         if (droneEntityOptional.isPresent()) {
             return droneEntityOptional.get();
         } else {
-            throw new InternalServerErrorException("Not found drone with serialNumber " + serialNumber);
+            throw new BadRequestException("Not found drone with serialNumber " + serialNumber);
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_UNCOMMITTED)
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_UNCOMMITTED, rollbackFor = DataIntegrityViolationException.class)
     @Override
     public void handleRegisterRequest(DroneDto drone) {
         final DroneEntity droneEntity = dtoMapper.dtoDroneToDroneEntity(drone);
-        final Long id = droneRepository.save(droneEntity).getId();
-        log.info("Saved drone with id {}", id);
+        try {
+            final Long id = droneRepository.save(droneEntity).getId();
+            log.info("Saved drone with id {}", id);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestException(e.getCause().getCause().getMessage());
+        }
     }
-
-
 }
