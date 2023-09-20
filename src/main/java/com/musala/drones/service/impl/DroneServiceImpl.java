@@ -51,6 +51,7 @@ public class DroneServiceImpl implements DroneService {
     private DroneEntity findDroneEntity(String serialNumber) {
         final Optional<DroneEntity> droneEntityOptional = droneRepository.findDroneEntityBySerialNumber(serialNumber);
         if (droneEntityOptional.isPresent()) {
+            log.info("Found a drone with serialNumber {}", serialNumber);
             return droneEntityOptional.get();
         } else {
             throw new BadRequestException("Not found drone with serialNumber " + serialNumber);

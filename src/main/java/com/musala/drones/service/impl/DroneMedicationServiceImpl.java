@@ -6,6 +6,7 @@ import com.musala.drones.dto.MedicationDto;
 import com.musala.drones.exception.BadRequestException;
 import com.musala.drones.model.DroneEntity;
 import com.musala.drones.model.MedicationEntity;
+import com.musala.drones.model.State;
 import com.musala.drones.repository.DroneRepository;
 import com.musala.drones.service.DroneMedicationService;
 import com.musala.drones.util.DtoMapper;
@@ -82,6 +83,7 @@ public class DroneMedicationServiceImpl implements DroneMedicationService {
     private void updateEntity(DroneEntity droneEntity, List<MedicationEntity> medicationEntityList) {
         medicationEntityList.forEach(medicationEntity -> medicationEntity.setDrones(droneEntity));
         droneEntity.getMedicationEntities().addAll(medicationEntityList);
+        droneEntity.setState(State.LOADING);
         if (weightCheckUtil.checkWeight(droneEntity.getMedicationEntities())) {
             final Long id = droneRepository.save(droneEntity).getId();
             log.info("Updated droneEntity with id {}", id);

@@ -82,9 +82,18 @@ service:
     get-drone-battery-capacity: ${GET_DRONE_BATTERY_CAPACITY:/v1/drone/{serialNumber}/capacity}
 
   const:
+    drone-state: ${drone-state:IDLE}
 
   request:
-    process-id-header-name: ${REQUEST_PROCESS_ID_HEADER_NAME:processId}
+    account-id-header-name: ${REQUEST_ACCOUNT_ID_HEADER_NAME:account-id}
+    product-id-header-name: ${REQUEST_PRODUCT_ID_HEADER_NAME:productId}
+    process-id-header-name: ${REQUEST_PROCESS_ID_HEADER_NAME:process-Id}
+    application-id-header-name: ${REQUEST_APPLICATION_ID_HEADER_NAME:applicationId}
+    session-id-header-name: ${SESSION_ID_HEADER_NAME:sessionId}
+    type-param-name: type
+    amount-param-name: amount
+    date-param-name: date
+    with-monthly-payment-reduction-param-name: withMonthlyPaymentReduction
 
 headers:
   process-id-header-name: ${REQUESTS_PROCESS_ID_HEADER_NAME:X-Process-Id}

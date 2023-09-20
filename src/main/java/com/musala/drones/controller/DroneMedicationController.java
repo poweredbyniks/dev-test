@@ -3,7 +3,9 @@ package com.musala.drones.controller;
 import com.musala.drones.dto.DroneMedicationDto;
 import com.musala.drones.dto.MedicationDto;
 import com.musala.drones.service.DroneMedicationService;
+import com.musala.drones.util.ProcessIdUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.musala.drones.util.ProcessIdUtil.PROCESS_ID_HEADER_NAME;
 
 @Slf4j
 @RequestMapping("${service.mapping.common}")
@@ -26,7 +30,9 @@ public class DroneMedicationController {
     }
 
     @GetMapping("${service.mapping.check-drone-load-get}")
-    public ResponseEntity<DroneMedicationDto> checkLoad(@PathVariable String serialNumber) {
+    public ResponseEntity<DroneMedicationDto> checkLoad(@RequestHeader(required = false) String processId,
+                                                        @PathVariable String serialNumber) {
+        MDC.put(PROCESS_ID_HEADER_NAME, ProcessIdUtil.checkAndGenerateProcessId(processId));
         final DroneMedicationDto droneMedicationDto = droneMedicationService.handleCheckLoad(serialNumber);
         return new ResponseEntity<>(droneMedicationDto, HttpStatus.OK);
     }
@@ -35,6 +41,7 @@ public class DroneMedicationController {
     public ResponseEntity<String> loadDrone(@RequestHeader(required = false) String processId,
                                             @PathVariable String serialNumber,
                                             @RequestBody MedicationDto medications) {
+        MDC.put(PROCESS_ID_HEADER_NAME, ProcessIdUtil.checkAndGenerateProcessId(processId));
         droneMedicationService.handleLoadRequest(serialNumber, medications);
         return new ResponseEntity<>(HttpStatus.OK);
     }

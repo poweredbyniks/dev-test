@@ -31,7 +31,7 @@
         <springdoc.version>1.6.15</springdoc.version>
         <spring-boot.version>2.7.12</spring-boot.version>
         <mvn.deploy-release.plugin.version>3.0.0-M6</mvn.deploy-release.plugin.version>
-        <testcontainers.version>1.9.1</testcontainers.version>
+        <testcontainers.version>1.18.3</testcontainers.version>
         <application.version>${project.version}</application.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -109,6 +109,11 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${webmvc.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
 
         <dependency>
@@ -221,11 +226,10 @@
 <!--            <artifactId>spring-jdbc</artifactId>-->
 <!--        </dependency>-->
 
-<!--        <dependency>-->
-<!--            <groupId>org.awaitility</groupId>-->
-<!--            <artifactId>awaitility</artifactId>-->
-<!--            <version>4.0.2</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
