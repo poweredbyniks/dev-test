@@ -63,6 +63,9 @@ public class DroneServiceImpl implements DroneService {
     public void handleRegisterRequest(DroneDto drone) {
         final DroneEntity droneEntity = dtoMapper.dtoDroneToDroneEntity(drone);
         try {
+            if (droneRepository.findDroneEntityBySerialNumber(drone.getSerialNumber()).isPresent()) {
+                throw new BadRequestException("Drone with " + drone.getSerialNumber() + " already exists");
+            }
             final Long id = droneRepository.save(droneEntity).getId();
             log.info("Saved drone with id {}", id);
         } catch (DataIntegrityViolationException e) {

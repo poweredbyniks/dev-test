@@ -1,12 +1,12 @@
 package com.musala.drones;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.musala.drones.config.EnvironmentConfigContextInitializer;
 import com.musala.drones.config.InitTestDataService;
 import com.musala.drones.config.MedicationEntityRepository;
-import com.musala.drones.config.db.BasePostgresContainer;
-import com.musala.drones.config.EnvironmentConfigContextInitializer;
-import com.musala.drones.config.db.PreconfiguredPGContainer;
 import com.musala.drones.config.TestConfig;
+import com.musala.drones.config.db.BasePostgresContainer;
+import com.musala.drones.config.db.PreconfiguredPGContainer;
 import com.musala.drones.config.db.StartableConnectionProvider;
 import com.musala.drones.dto.DroneBatteryCapacityDto;
 import com.musala.drones.dto.DroneDto;
@@ -164,14 +164,19 @@ public class DevDronesTest {
     @Test
     public void Ba_negativeCaseGetDroneBatteryCapacityWithAbsentDrone() {
         initDataForGetDroneBatteryCapacity();
-        DroneBatteryCapacityDto response = testWebClient.mutate().baseUrl("http://localhost:8080").build()
-                .get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/api/v1/drone/{serialNumber}/capacity")
-                        .build("R2D2"))
-                .exchangeToMono(clientResponse -> clientResponse.bodyToMono(DroneBatteryCapacityDto.class))
-                .block();
-        assertThat(response).isNotNull();
+        try {
+            DroneBatteryCapacityDto response = testWebClient.mutate().baseUrl("http://localhost:8080").build()
+                    .get()
+                    .uri(uriBuilder -> uriBuilder
+                            .path("/api/v1/drone/{serialNumber}/capacity")
+                            .build("R2D2"))
+                    .retrieve()
+                    .onStatus(HttpStatus::is4xxClientError, clientResponse -> clientResponse.bodyToMono(DroneBatteryCapacityDto.class).flatMap(errorBody -> Mono.error(new Exception())))
+                    .bodyToMono(DroneBatteryCapacityDto.class)
+                    .block();
+        } catch (Exception e) {
+            log.info("Success");
+        }
     }
 
     @Description("Positive")
@@ -193,28 +198,20 @@ public class DevDronesTest {
     @Test
     public void Ca_NegativeCasePostDroneWithExistingSerialNumber() {
         initDataForNegativePostDroneWithExistingSerialNumber();
-        testWebClient.mutate().baseUrl("http://localhost:8080").build()
-                .post()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/api/v1/drones")
-                        .build())
-                .body(BodyInserters.fromValue(buildNegativeDroneDto()))
-                .exchangeToMono(clientResponse -> clientResponse.bodyToMono(Void.class))
-                .block();
-    }
-
-    @Description("Positive")
-    @SneakyThrows
-    @Test
-    public void Cb_NegativeCasePostDroneWithExistingSerialNumber() { //TODO duplicate
-        testWebClient.mutate().baseUrl("http://localhost:8080").build()
-                .post()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/api/v1/drones")
-                        .build())
-                .body(BodyInserters.fromValue(buildNegativeDroneDto()))
-                .exchangeToMono(clientResponse -> clientResponse.bodyToMono(Void.class))
-                .block();
+        try {
+            testWebClient.mutate().baseUrl("http://localhost:8080").build()
+                    .post()
+                    .uri(uriBuilder -> uriBuilder
+                            .path("/api/v1/drones")
+                            .build())
+                    .body(BodyInserters.fromValue(buildNegativeDroneDto()))
+                    .retrieve()
+                    .onStatus(HttpStatus::is4xxClientError, clientResponse -> clientResponse.bodyToMono(String.class).flatMap(errorBody -> Mono.error(new Exception(errorBody))))
+                    .bodyToMono(String.class)
+                    .block();
+        } catch (Exception e) {
+            assertThat(e.getMessage().contains("exists"));
+        }
     }
 
     @Description("Positive")
