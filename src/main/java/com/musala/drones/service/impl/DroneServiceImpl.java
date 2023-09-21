@@ -37,6 +37,13 @@ public class DroneServiceImpl implements DroneService {
     }
 
     @Override
+    public List<DroneDto> handleFindAllAvailableDrones() {
+        final List<DroneDto> drones = new ArrayList<>();
+        droneRepository.findAllByState(State.IDLE).forEach(droneEntity -> drones.add(dtoMapper.droneEntityToDtoDrone(droneEntity)));
+        return drones;
+    }
+
+    @Override
     public List<DroneDto> handleFindAllDrones() {
         final List<DroneDto> drones = new ArrayList<>();
         droneRepository.findAllByState(State.IDLE).forEach(droneEntity -> drones.add(dtoMapper.droneEntityToDtoDrone(droneEntity)));

@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface DroneService {
 
+    List<DroneDto> handleFindAllAvailableDrones();
+
     List<DroneDto> handleFindAllDrones();
 
     DroneBatteryCapacityDto checkBatteryCapacity(String serialNumber);

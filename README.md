@@ -1,76 +1,70 @@
-## Drones
+# Dear visitor, welcome to Dev Drones application!
 
-[[_TOC_]]
+---
+This manual explains how to run application and tests locally.
+Before we start it is important to accept some assumptions:
+- medication is always unique (combination of weight and name) and there’s no need to check if it exists in DB or not
+- PSQL is used for logging storage for the purpose of simplification of the test app, in a real project it's better to use Kafka with infinite retention or Elastic
+
+This application allows to:
+- register a drone
+- show all drones
+- show all available for loading medications drones
+- check drone battery capacity
+- check drone's medication load
+- load particular drone with medications
+
+Original task could be found in `INITIALTASK.md`.
 
 ---
 
-:scroll: **START**
+## Running an application
 
+#### PRECONDITIONS:
+First of all it is required to install: 
+- JDK [installation guide](https://openjdk.org/install/)
+- Maven [installation guide](https://maven.apache.org/install.html)
+- Docker [installation guide](https://docs.docker.com/engine/install/)
 
-### Introduction
-
-There is a major new technology that is destined to be a disruptive force in the field of transportation: **the droneEntity**. Just as the mobile phone allowed developing countries to leapfrog older technologies for personal communication, the droneEntity has the potential to leapfrog traditional transportation infrastructure.
-
-Useful droneEntity functions include delivery of small items that are (urgently) needed in locations with difficult access.
-
----
-
-### Task description
-
-We have a fleet of **10 drones**. A droneEntity is capable of carrying devices, other than cameras, and capable of delivering small loads. For our use case **the load is medications**.
-
-A **Drone** has:
-- serial number (100 characters max);
-- model (Lightweight, Middleweight, Cruiserweight, Heavyweight);
-- weight limit (500gr max);
-- battery capacity (percentage);
-- state (IDLE, LOADING, LOADED, DELIVERING, DELIVERED, RETURNING).
-
-Each **Medication** has: 
-- name (allowed only letters, numbers, ‘-‘, ‘_’);
-- weight;
-- code (allowed only upper case letters, underscore and numbers);
-- image (picture of the medicationEntity case).
-
-Develop a service via REST API that allows clients to communicate with the drones (i.e. **dispatch controller**). The specific communication with the droneEntity is outside the scope of this task. 
-
-The service should allow:
-- registering a droneEntity;
-- loading a droneEntity with medicationEntity items;
-- checking loaded medicationEntity items for a given droneEntity; 
-- checking available drones for loading;
-- check droneEntity battery level for a given droneEntity;
-
-> Feel free to make assumptions for the design approach. 
+After all the steps are completed it is reasonable to proceed further.
 
 ---
 
-### Requirements
+#### STEP 1:
+Open your favorite terminal app, then clone current repository with command `git clone https://oauth:glpat-2r4Q5zpjfpstAZCfPrFy@gitlab.com/musala_soft/DEV_DRONES-ff56b8de-84b3-91b8-c7a7-acaba30b2f02.git`
 
-While implementing your solution **please take care of the following requirements**: 
+#### STEP 2:
+Open the folder with the project and execute command `mvn clean package`
+The message `BUILD SUCCESS` will show that everything went perfect 
 
-#### Functional requirements
+#### STEP 3:
+Execute command `docker-compose up --build` to start application and database containers
 
-- There is no need for UI;
-- Prevent the droneEntity from being loaded with more weight that it can carry;
-- Prevent the droneEntity from being in LOADING state if the battery level is **below 25%**;
-- Introduce a periodic task to check drones battery levels and create history/audit event log for this.
+#### STEP 4:
+Using your web browser open [swagger page](http://localhost:8080/swagger-ui/index.html#/)
 
----
-
-#### Non-functional requirements
-
-- Input/output data must be in JSON format;
-- Your project must be buildable and runnable;
-- Your project must have a README file with build/run/test instructions (use DB that can be run locally, e.g. in-memory, via container);
-- Any data required by the application to run (e.g. reference tables, dummy data) must be preloaded in the database;
-- Unit tests;
-- Use a framework of your choice, but popular, up-to-date, and long-term support versions are recommended.
+#### STEP 5:
+Enjoy your experience
 
 ---
 
-:scroll: **END** 
+### Running an application using IDE
+There is an option to run an application in an IDE, but in this case it required to run PostgreSQL database by your own and set parameters of your database in application.yaml file:
+```
+datasource:
+url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db:5432/devdronesdb}
+username: ${SPRING_DATASOURCE_USERNAME:postgres}
+password: ${SPRING_DATASOURCE_PASSWORD:dockerpassword} 
+```
 
-## Let's assume that medicine is always unique (combination of weight and name) and there’s no need to check if it exists in DB or not
+---
 
-for simplification of the test app PSQL used for logging storage, in a real project its better to use kafka with infinite retention or elastic  
+## Running tests
+For running tests use IDE (e.g. IntelliJ IDEA)
+
+#### STEP 1:
+Open com/musala/drones/DevDronesTest.java class and run tests with mandatory VM options by clicking "Edit configurations button" 
+`-DliquibasePostgre.path=src/main/resources/liquibase/changelog.xml`
+
+#### STEP 2:
+Enjoy your experience
