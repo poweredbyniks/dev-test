@@ -154,4 +154,34 @@ public class InitTestDataService {
         droneRepository.save(droneEntity3);
     }
 
+    @SneakyThrows
+    @Transactional
+    public void initDataForNegativeWrongState() {
+        final DroneEntity droneEntity1 = new DroneEntity();
+        droneEntity1.setState(State.RETURNING);
+        droneEntity1.setModel(Model.Heavyweight);
+        droneEntity1.setBatteryCapacity(42);
+        droneEntity1.setSerialNumber("C-3PO");
+        droneEntity1.setWeightLimit(500);
+
+
+        final DroneEntity droneEntity2 = new DroneEntity();
+        droneEntity2.setState(State.RETURNING);
+        droneEntity2.setModel(Model.Heavyweight);
+        droneEntity2.setBatteryCapacity(22);
+        droneEntity2.setSerialNumber(UUID.randomUUID().toString());
+        droneEntity2.setWeightLimit(500);
+
+        final DroneEntity droneEntity3 = new DroneEntity();
+        droneEntity3.setState(State.RETURNING);
+        droneEntity3.setModel(Model.Heavyweight);
+        droneEntity3.setBatteryCapacity(75);
+        droneEntity3.setSerialNumber(UUID.randomUUID().toString());
+        droneEntity3.setWeightLimit(500);
+
+        droneRepository.save(droneEntity1);
+        droneRepository.save(droneEntity2);
+        droneRepository.save(droneEntity3);
+    }
+
 }

@@ -82,11 +82,11 @@ public class DroneMedicationServiceImpl implements DroneMedicationService {
 
     private DroneEntity findDroneEntityToLoad(String serialNumber) {
         final Optional<DroneEntity> droneEntityOptional =
-                droneRepository.findDroneEntityBySerialNumberAndStateIdleOrLoading(serialNumber, State.IDLE.name(), State.LOADING.name());
+                droneRepository.findDroneEntityBySerialNumberAndStateIdleOrLoading(serialNumber, State.IDLE, State.LOADING);
         if (droneEntityOptional.isPresent()) {
             return droneEntityOptional.get();
         } else {
-            throw new BadRequestException("Not found drone with serialNumber " + serialNumber);
+            throw new BadRequestException("Not found drone with serialNumber " + serialNumber + " and IDLE or LOADING states");
         }
     }
 

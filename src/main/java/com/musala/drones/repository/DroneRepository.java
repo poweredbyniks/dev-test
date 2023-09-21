@@ -21,8 +21,8 @@ public interface DroneRepository extends JpaRepository<DroneEntity, Long> {
 
     @Query(value = "SELECT drone FROM DroneEntity drone WHERE drone.serialNumber =:serialNumber AND (drone.state = :idleState OR drone.state =:loadingState)")
     Optional<DroneEntity> findDroneEntityBySerialNumberAndStateIdleOrLoading(@Param("serialNumber") String serialNumber,
-                                                                             @Param("idleState") String idleState,
-                                                                             @Param("loadingState") String loadingState);
+                                                                             @Param("idleState") State idleState,
+                                                                             @Param("loadingState") State loadingState);
 
     @Query(value = "SELECT drone FROM DroneEntity drone WHERE drone.state =:state")
     List<DroneEntity> findAllByState(@Param("state") State state);

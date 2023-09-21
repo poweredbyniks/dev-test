@@ -48,7 +48,6 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -193,6 +192,7 @@ public class DevDronesTest {
     @SneakyThrows
     @Test
     public void Ca_NegativeCasePostDroneWithExistingSerialNumber() {
+        initDataForNegativePostDroneWithExistingSerialNumber();
         testWebClient.mutate().baseUrl("http://localhost:8080").build()
                 .post()
                 .uri(uriBuilder -> uriBuilder
@@ -206,7 +206,7 @@ public class DevDronesTest {
     @Description("Positive")
     @SneakyThrows
     @Test
-    public void Cb_NegativeCasePostDroneWithExistingSerialNumber() {
+    public void Cb_NegativeCasePostDroneWithExistingSerialNumber() { //TODO duplicate
         testWebClient.mutate().baseUrl("http://localhost:8080").build()
                 .post()
                 .uri(uriBuilder -> uriBuilder
@@ -301,7 +301,7 @@ public class DevDronesTest {
     @Description("Positive")
     @SneakyThrows
     @Test
-    public void G_NegativeCasePostLoadDroneWithMedicationsOverweight() {
+    public void Fa_NegativeCasePostLoadDroneWithMedicationsOverweight() {
         initDataForPositiveCaseCheckDroneMedicines();
         try {
             testWebClient.mutate().baseUrl("http://localhost:8080").build()
@@ -316,6 +316,27 @@ public class DevDronesTest {
                     .block();
         } catch (Exception e) {
             assertThat(e.getMessage().contains("500gr"));
+        }
+    }
+
+    @Description("Positive")
+    @SneakyThrows
+    @Test
+    public void Fb_NegativeCasePostLoadDroneWithWrongDroneState() {
+        initDataForNegativeWrongState();
+        try {
+            testWebClient.mutate().baseUrl("http://localhost:8080").build()
+                    .post()
+                    .uri(uriBuilder -> uriBuilder
+                            .path("/api/v1/drone/{serialNumber}/medicines")
+                            .build("C-3PO"))
+                    .body(BodyInserters.fromValue(buildPositiveMedicationDto()))
+                    .retrieve()
+                    .onStatus(HttpStatus::is4xxClientError, clientResponse -> clientResponse.bodyToMono(String.class).flatMap(errorBody -> Mono.error(new Exception(errorBody))))
+                    .bodyToMono(String.class)
+                    .block();
+        } catch (Exception e) {
+            assertThat(e.getMessage().contains("state"));
         }
     }
 
@@ -408,6 +429,10 @@ public class DevDronesTest {
 
     private void initDataForPositiveCaseCheckDroneMedicines() {
         initTestDataService.initDataForPositiveCaseCheckDroneMedicines();
+    }
+
+    private void initDataForNegativeWrongState() {
+        initTestDataService.initDataForNegativeWrongState();
     }
 
 }
