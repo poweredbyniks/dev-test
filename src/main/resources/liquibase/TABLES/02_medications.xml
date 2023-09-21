@@ -7,7 +7,7 @@
     <changeSet id="20230919-1" author="Stroganov-NV" context="musala-soft">
         <createTable tableName="medications">
             <column name="id" autoIncrement="true" type="bigint" remarks="Unique id">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="certificate_pkey"></constraints>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="medication_pkey"></constraints>
             </column>
             <column name="name" type="text"></column>
             <column name="weight" type="int"></column>

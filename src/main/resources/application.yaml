@@ -82,3 +82,6 @@ service:
     get-drone-battery-capacity: ${GET_DRONE_BATTERY_CAPACITY:/v1/drone/{serialNumber}/capacity}
   request:
     process-id-header-name: ${REQUEST_PROCESS_ID_HEADER_NAME:processId}
+  scheduler:
+    initial-delay: ${INITIAL_DELAY:0/30 * * * * * }
+    fixed-delay: ${FIXED_DELAY:60000}

@@ -5,4 +5,5 @@
 
     <include file="01_drones.xml" relativeToChangelogFile="true"/>
     <include file="02_medications.xml" relativeToChangelogFile="true"/>
+    <include file="03_battery_logs.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
