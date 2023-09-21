@@ -8,9 +8,9 @@ spring:
     enabled: true
 
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/gghqdb}
-    username: ${DB_USER:postgres}
-    password: ${DB_PASS:niks}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db:5432/devdronesdb}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:dockerpassword}
     hikari:
       max-lifetime: 30000
       allow-pool-suspension: true

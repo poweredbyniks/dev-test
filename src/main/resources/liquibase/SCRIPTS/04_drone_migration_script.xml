@@ -1,0 +1,92 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="20230919-4" author="Stroganov-NV" context="musala-soft" runAlways="true" runOnChange="true">
+        <sql endDelimiter="\n/\s*\n|\n/\s*$">
+            <![CDATA[
+            SET SCHEMA '${SCHEMA}';
+            create temp table nt_sys_type_table
+ (
+     a varchar,
+     b varchar,
+     c integer,
+     d integer,
+     e varchar
+ );
+ create or replace function sys_type_function(aa varchar, bb varchar, cc integer, dd integer, ee varchar)
+     returns void
+     language plpgsql
+     as
+  $$
+            BEGIN
+            insert into nt_sys_type_table(a, b, c, d, e) values (aa, bb, cc, dd, ee);
+            end;
+  $$;
+  DO
+  $$
+    declare
+            nt_sys_type  nt_sys_type_table%ROWTYPE;
+        v_attr1 varchar;
+        v_attr2 varchar;
+        v_attr3 integer;
+        v_attr4 integer;
+        v_attr5 varchar;
+        checkf integer;
+            begin
+    perform sys_type_function('7d5c4f8d-07ff-4cd1-9fd3-bd370c61a2a1', 'Heavyweight', 500, 100, 'IDLE');
+    perform sys_type_function('f96d5980-f767-430d-bda4-36a11ab48898', 'Lightweight', 500, 89, 'IDLE');
+    perform sys_type_function('086ce36c-aee1-4c64-9f7a-710fad4744c6', 'Middleweight', 500, 44, 'LOADED');
+    perform sys_type_function('3b219378-4d79-4a0f-b280-a22cf3a94e2b', 'Heavyweight', 500, 100, 'DELIVERING');
+    perform sys_type_function('62d26c05-0e61-4cb4-8579-a0e6eda29797', 'Cruiserweight', 500, 100, 'IDLE');
+    perform sys_type_function('8b66fef4-62a4-4410-8f73-1a6095b3aeee', 'Heavyweight', 500, 100, 'IDLE');
+    perform sys_type_function('bee6803b-5db6-4c49-a70a-ab61d997811c', 'Heavyweight', 500, 100, 'IDLE');
+
+            for nt_sys_type in
+            select * from nt_sys_type_table
+                              loop
+                v_attr1 := nt_sys_type.a;
+            v_attr2 := nt_sys_type.b;
+            v_attr3 := nt_sys_type.c;
+            v_attr4 := nt_sys_type.d;
+            v_attr5 := nt_sys_type.e;
+
+            select count(1) INTO checkf from ${SCHEMA}.drones
+            where lower(serial_number)=lower(v_attr1);
+
+            if checkf>0 then
+            update ${SCHEMA}.drones
+            set serial_number=v_attr1
+              , model=v_attr2
+              , weight_limit=v_attr3
+              , battery_capacity=v_attr4
+              , state=v_attr5
+            where lower(serial_number)=lower(v_attr1);
+            else
+           insert into ${SCHEMA}.drones(
+            serial_number,
+            model,
+            weight_limit,
+            battery_capacity,
+            state
+            )
+            values (
+            v_attr1,
+            v_attr2,
+            v_attr3,
+            v_attr4,
+            v_attr5
+            );
+            end if;
+                checkf :=0;
+            end loop;
+            drop table nt_sys_type_table;
+            end;
+  $$;
+            ]]>
+        </sql>
+        <rollback/>
+    </changeSet>
+
+
+</databaseChangeLog>
