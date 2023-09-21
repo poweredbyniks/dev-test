@@ -78,6 +78,7 @@ service:
     register-drone-post: ${REGISTER_DRONE_POST:/v1/drones}
     load-drone-post: ${LOAD_DRONE_POST:/v1/drone/{serialNumber}/medicines}
     check-drone-load-get: ${CHECK_DRONE_LOAD_GET:/v1/drone/{serialNumber}/medicines}
+    get-drones: ${GET_DRONES:/v1/drones}
     get-all-available-drones: ${GET_ALL_AVAILABLE_DRONES:/v1/available-drones}
     get-drone-battery-capacity: ${GET_DRONE_BATTERY_CAPACITY:/v1/drone/{serialNumber}/capacity}
   request:

@@ -27,4 +27,7 @@ public interface DroneRepository extends JpaRepository<DroneEntity, Long> {
     @Query(value = "SELECT drone FROM DroneEntity drone WHERE drone.state =:state")
     List<DroneEntity> findAllByState(@Param("state") State state);
 
+    @Query(value = "SELECT drone FROM DroneEntity drone")
+    List<DroneEntity> findAllDrones();
+
 }
