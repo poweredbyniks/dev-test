@@ -52,9 +52,9 @@ Enjoy your experience
 There is an option to run an application in an IDE, but in this case it required to run PostgreSQL database by your own and set parameters of your database in application.yaml file:
 ```
 datasource:
-url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db:5432/devdronesdb}
-username: ${SPRING_DATASOURCE_USERNAME:postgres}
-password: ${SPRING_DATASOURCE_PASSWORD:dockerpassword} 
+  url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db:5432/devdronesdb}
+  username: ${SPRING_DATASOURCE_USERNAME:postgres}
+  password: ${SPRING_DATASOURCE_PASSWORD:dockerpassword} 
 ```
 
 ---
@@ -67,4 +67,4 @@ Open com/musala/drones/DevDronesTest.java class and run tests with mandatory VM 
 `-DliquibasePostgre.path=src/main/resources/liquibase/changelog.xml`
 
 #### STEP 2:
-Enjoy your experience
+Enjoy your testing experience
