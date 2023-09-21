@@ -8,6 +8,7 @@ import com.musala.drones.model.State;
 import com.musala.drones.repository.DroneRepository;
 import com.musala.drones.service.DroneService;
 import com.musala.drones.util.DtoMapper;
+import com.musala.drones.util.MappingUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -27,9 +28,12 @@ public class DroneServiceImpl implements DroneService {
 
     private final DtoMapper dtoMapper;
 
-    public DroneServiceImpl(DroneRepository droneRepository, DtoMapper dtoMapper) {
+    private final MappingUtil mappingUtil;
+
+    public DroneServiceImpl(DroneRepository droneRepository, DtoMapper dtoMapper, MappingUtil mappingUtil) {
         this.droneRepository = droneRepository;
         this.dtoMapper = dtoMapper;
+        this.mappingUtil = mappingUtil;
     }
 
     @Override
@@ -42,10 +46,7 @@ public class DroneServiceImpl implements DroneService {
     @Override
     public DroneBatteryCapacityDto checkBatteryCapacity(String serialNumber) {
         final DroneEntity drone = findDroneEntity(serialNumber);
-        final DroneBatteryCapacityDto response = new DroneBatteryCapacityDto();
-        response.setSerialNumber(serialNumber);
-        response.setBatteryCapacity(drone.getBatteryCapacity());
-        return response;
+        return mappingUtil.buildDroneBatteryCapacityDto(serialNumber, drone);
     }
 
     private DroneEntity findDroneEntity(String serialNumber) {

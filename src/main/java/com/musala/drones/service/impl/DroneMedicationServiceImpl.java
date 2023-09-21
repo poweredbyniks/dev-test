@@ -10,6 +10,7 @@ import com.musala.drones.model.State;
 import com.musala.drones.repository.DroneRepository;
 import com.musala.drones.service.DroneMedicationService;
 import com.musala.drones.util.DtoMapper;
+import com.musala.drones.util.MappingUtil;
 import com.musala.drones.util.WeightCheck;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,10 +33,13 @@ public class DroneMedicationServiceImpl implements DroneMedicationService {
 
     private final WeightCheck weightCheckUtil;
 
-    public DroneMedicationServiceImpl(DroneRepository droneRepository, DtoMapper dtoMapper, WeightCheck weightCheckUtil) {
+    private final MappingUtil mappingUtil;
+
+    public DroneMedicationServiceImpl(DroneRepository droneRepository, DtoMapper dtoMapper, WeightCheck weightCheckUtil, MappingUtil mappingUtil) {
         this.droneRepository = droneRepository;
         this.dtoMapper = dtoMapper;
         this.weightCheckUtil = weightCheckUtil;
+        this.mappingUtil = mappingUtil;
     }
 
     @Override
@@ -44,11 +48,10 @@ public class DroneMedicationServiceImpl implements DroneMedicationService {
         final Set<MedicationEntity> medicationEntities = droneEntity.getMedicationEntities();
         final List<Medication> medicationDtos = new ArrayList<>();
         medicationEntities.forEach(medication -> medicationDtos.add(dtoMapper.medicationEntityToMedicationDto(medication)));
-        final DroneMedicationDto response = new DroneMedicationDto();
-        response.setSerialNumber(serialNumber);
-        response.setMedications(medicationDtos);
-        return response;
+        return mappingUtil.buildDroneMedicationDto(serialNumber, medicationDtos);
     }
+
+
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_UNCOMMITTED)
     @Override

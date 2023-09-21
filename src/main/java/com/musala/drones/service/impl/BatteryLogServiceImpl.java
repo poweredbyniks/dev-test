@@ -6,7 +6,6 @@ import com.musala.drones.repository.BatteryLogRepository;
 import com.musala.drones.repository.DroneRepository;
 import com.musala.drones.service.BatteryLogService;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -31,13 +30,17 @@ public class BatteryLogServiceImpl implements BatteryLogService {
         final List<DroneEntity> entityList = droneRepository.findAllEntities();
         final List<BatteryLog> batteryLogs = new ArrayList<>();
         entityList.forEach(entity -> {
-            final BatteryLog batteryLog = new BatteryLog();
-            batteryLog.setLogDateTime(ZonedDateTime.now());
-            batteryLog.setSerialNumber(entity.getSerialNumber());
-            batteryLog.setBatteryCapacity(entity.getBatteryCapacity());
-            batteryLogs.add(batteryLog);
+            batteryLogs.add(buildBatteryLog(entity));
         });
         batteryLogRepository.saveAll(batteryLogs);
         log.info("Successfully logged drones battery status");
+    }
+
+    private BatteryLog buildBatteryLog(DroneEntity entity) {
+        final BatteryLog batteryLog = new BatteryLog();
+        batteryLog.setLogDateTime(ZonedDateTime.now());
+        batteryLog.setSerialNumber(entity.getSerialNumber());
+        batteryLog.setBatteryCapacity(entity.getBatteryCapacity());
+        return batteryLog;
     }
 }

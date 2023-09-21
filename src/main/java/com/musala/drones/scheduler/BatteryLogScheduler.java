@@ -13,7 +13,7 @@ public class BatteryLogScheduler {
         this.batteryLogService = batteryLogService;
     }
 
-    @Scheduled(cron = "${service.scheduler.initial-delay}")
+    @Scheduled(cron = "${service.scheduler.cron}")
     public void runTask() {
         batteryLogService.checkAndLogBatteryCapacity();
     }
