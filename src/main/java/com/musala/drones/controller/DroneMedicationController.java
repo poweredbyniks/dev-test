@@ -33,6 +33,7 @@ public class DroneMedicationController {
     public ResponseEntity<DroneMedicationDto> checkLoad(@RequestHeader(required = false) String processId,
                                                         @PathVariable String serialNumber) {
         MDC.put(PROCESS_ID_HEADER_NAME, ProcessIdUtil.checkAndGenerateProcessId(processId));
+        log.info("Received /v1/drone/{serialNumber}/medicines request");
         final DroneMedicationDto droneMedicationDto = droneMedicationService.handleCheckLoad(serialNumber);
         return new ResponseEntity<>(droneMedicationDto, HttpStatus.OK);
     }
@@ -42,6 +43,7 @@ public class DroneMedicationController {
                                             @PathVariable String serialNumber,
                                             @RequestBody MedicationDto medications) {
         MDC.put(PROCESS_ID_HEADER_NAME, ProcessIdUtil.checkAndGenerateProcessId(processId));
+        log.info("Received /v1/drone/{serialNumber}/medicines request");
         droneMedicationService.handleLoadRequest(serialNumber, medications);
         return new ResponseEntity<>(HttpStatus.OK);
     }

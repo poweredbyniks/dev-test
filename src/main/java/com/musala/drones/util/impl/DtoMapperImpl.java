@@ -8,6 +8,7 @@ import com.musala.drones.util.DtoMapper;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.processing.Generated;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -70,7 +71,7 @@ public class DtoMapperImpl implements DtoMapper {
         medication1.setCode(medication.getCode());
         byte[] image = medication.getImage();
         if (image != null) {
-            medication1.setImage(Base64.getEncoder().encodeToString(Arrays.copyOf(image, image.length)));
+            medication1.setImage(new String(Arrays.copyOf(image, image.length)));
         }
 
         return medication1;
@@ -88,7 +89,7 @@ public class DtoMapperImpl implements DtoMapper {
         medicationEntity.weight(medication.getWeight());
         medicationEntity.code(medication.getCode());
 
-        byte[] image = Base64.getDecoder().decode(medication.getImage());
+        byte[] image = medication.getImage().getBytes(StandardCharsets.UTF_8);
         if (image != null) {
             medicationEntity.image(Arrays.copyOf(image, image.length));
         }

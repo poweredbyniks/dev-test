@@ -8,9 +8,9 @@ spring:
     enabled: true
 
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/gghqdb}
-    username: ${DB_USER:postgres}
-    password: ${DB_PASS:niks}
+    url: ${DB_URL:jdbc:postgresql:}
+    username: ${DB_USER:}
+    password: ${DB_PASS:}
     hikari:
       max-lifetime: 30000
       allow-pool-suspension: true
@@ -54,15 +54,6 @@ msa:
         tag: ${spring.application.name}
         message-format: ${FLUENTD_TYPE:LOGS_COLLECTOR}
 
-springdoc:
-  api-docs:
-    path: /api-docs
-    enabled: true
-  swagger-ui:
-    enabled: true
-    use-root-path: true
-    display-request-duration: true
-
 webclient:
   common:
     timeout:
@@ -80,10 +71,6 @@ service:
     check-drone-load-get: ${CHECK_DRONE_LOAD_GET:/v1/drone/{serialNumber}/medicines}
     get-all-available-drones: ${GET_ALL_AVAILABLE_DRONES:/v1/available-drones}
     get-drone-battery-capacity: ${GET_DRONE_BATTERY_CAPACITY:/v1/drone/{serialNumber}/capacity}
-
-  const:
-    drone-state: ${drone-state:IDLE}
-
   request:
     account-id-header-name: ${REQUEST_ACCOUNT_ID_HEADER_NAME:account-id}
     product-id-header-name: ${REQUEST_PRODUCT_ID_HEADER_NAME:productId}
@@ -94,7 +81,3 @@ service:
     amount-param-name: amount
     date-param-name: date
     with-monthly-payment-reduction-param-name: withMonthlyPaymentReduction
-
-headers:
-  process-id-header-name: ${REQUESTS_PROCESS_ID_HEADER_NAME:X-Process-Id}
-

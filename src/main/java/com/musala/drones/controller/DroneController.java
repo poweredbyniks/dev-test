@@ -36,7 +36,7 @@ public class DroneController {
     @GetMapping("${service.mapping.get-all-available-drones}")
     public ResponseEntity<List<DroneDto>> findAllAvailableDrones(@RequestHeader(required = false) String processId) {
         MDC.put(PROCESS_ID_HEADER_NAME, ProcessIdUtil.checkAndGenerateProcessId(processId));
-        log.info("Received GET request /v1/available-drones");
+        log.info("Received GET request /v1/available-drones request");
         final List<DroneDto> drones = droneService.handleFindAllDrones();
         return new ResponseEntity<>(drones, HttpStatus.OK);
     }
@@ -45,7 +45,7 @@ public class DroneController {
     public ResponseEntity<DroneBatteryCapacityDto> checkBatteryCapacity(@RequestHeader(required = false) String processId,
                                                                         @PathVariable String serialNumber) {
         MDC.put(PROCESS_ID_HEADER_NAME, ProcessIdUtil.checkAndGenerateProcessId(processId));
-        log.info("Received GET request /v1/drones/{serialNumber}/capacity");
+        log.info("Received GET request /v1/drones/{serialNumber}/capacity request");
         final DroneBatteryCapacityDto batteryCapacity = droneService.checkBatteryCapacity(serialNumber);
         return new ResponseEntity<>(batteryCapacity, HttpStatus.OK);
     }
@@ -53,7 +53,7 @@ public class DroneController {
     @PostMapping("${service.mapping.register-drone-post}")
     public ResponseEntity<Void> registerDrone(@RequestHeader(required = false) String processId, @Valid @RequestBody DroneDto drone) {
         MDC.put(PROCESS_ID_HEADER_NAME, ProcessIdUtil.checkAndGenerateProcessId(processId));
-        log.info("Received POST request /v1/drones");
+        log.info("Received POST request /v1/drones request");
         droneService.handleRegisterRequest(drone);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

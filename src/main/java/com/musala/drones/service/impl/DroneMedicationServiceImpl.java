@@ -62,7 +62,7 @@ public class DroneMedicationServiceImpl implements DroneMedicationService {
 
     private void handlePositive(String serialNumber, MedicationDto medications) {
         final List<MedicationEntity> medicationEntityList = new ArrayList<>();
-        final DroneEntity droneEntity = findDroneEntity(serialNumber);
+        final DroneEntity droneEntity = findDroneEntityToLoad(serialNumber);
         if (droneEntity.getBatteryCapacity() >= 25) {
             medications.getMedications().forEach(medication -> medicationEntityList.add(dtoMapper.medicationDtoToMedicationEntity(medication)));
             updateEntity(droneEntity, medicationEntityList);
@@ -73,6 +73,16 @@ public class DroneMedicationServiceImpl implements DroneMedicationService {
 
     private DroneEntity findDroneEntity(String serialNumber) {
         final Optional<DroneEntity> droneEntityOptional = droneRepository.findDroneEntityBySerialNumber(serialNumber);
+        if (droneEntityOptional.isPresent()) {
+            return droneEntityOptional.get();
+        } else {
+            throw new BadRequestException("Not found drone with serialNumber " + serialNumber);
+        }
+    }
+
+    private DroneEntity findDroneEntityToLoad(String serialNumber) {
+        final Optional<DroneEntity> droneEntityOptional =
+                droneRepository.findDroneEntityBySerialNumberAndStateIdleOrLoading(serialNumber, State.IDLE.name(), State.LOADING.name());
         if (droneEntityOptional.isPresent()) {
             return droneEntityOptional.get();
         } else {
