@@ -16,7 +16,7 @@
     </parent>
 
     <name>dev-drones</name>
-    <description>Application for drones</description>
+    <description>Application for drones management</description>
     <url>https://oauth:glpat-2r4Q5zpjfpstAZCfPrFy@gitlab.com/musala_soft/DEV_DRONES-ff56b8de-84b3-91b8-c7a7-acaba30b2f02.git</url>
 
     <scm>
@@ -35,15 +35,9 @@
         <application.version>${project.version}</application.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jaxws.ri.version>2.3.3</jaxws.ri.version>
-        <version-cxf>3.2.6</version-cxf>
-        <mapstruct.version>1.4.2.Final</mapstruct.version>
         <jackson.version>2.13.4.2</jackson.version>
         <snakeyaml.version>2.0</snakeyaml.version>
         <webmvc.version>5.3.28</webmvc.version>
-        <mdc-logging.version>0.1.8</mdc-logging.version>
-        <junit5.version>5.7.2</junit5.version>
-        <jersey.version>2.22.2</jersey.version>
         <mockito.inline.version>3.6.28</mockito.inline.version>
     </properties>
 
@@ -137,12 +131,6 @@
         </dependency>
 
         <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
@@ -166,96 +154,9 @@
             <version>1.5.5.Final</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-test</artifactId>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <groupId>org.mockito</groupId>-->
-<!--                    <artifactId>mockito-inline</artifactId>-->
-<!--                </exclusion>-->
-<!--                <exclusion>-->
-<!--                    <groupId>org.mockito</groupId>-->
-<!--                    <artifactId>mockito-core</artifactId>-->
-<!--                </exclusion>-->
-<!--                <exclusion>-->
-<!--                    <groupId>org.mockito</groupId>-->
-<!--                    <artifactId>mockito-junit-jupiter</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>junit</groupId>-->
-<!--            <artifactId>junit</artifactId>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.testcontainers</groupId>-->
-<!--            <artifactId>jdbc</artifactId>-->
-<!--            <version>${testcontainers.version}</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.testcontainers</groupId>-->
-<!--            <artifactId>testcontainers</artifactId>-->
-<!--            <version>${testcontainers.version}</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.testcontainers</groupId>-->
-<!--            <artifactId>postgresql</artifactId>-->
-<!--            <version>${testcontainers.version}</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.testcontainers</groupId>-->
-<!--            <artifactId>mockserver</artifactId>-->
-<!--            <version>${testcontainers.version}</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.mock-server</groupId>-->
-<!--            <artifactId>mockserver-client-java</artifactId>-->
-<!--            <version>3.10.8</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework</groupId>-->
-<!--            <artifactId>spring-jdbc</artifactId>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-web</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-webmvc</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>${webmvc.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${webmvc.version}</version>
         </dependency>
 
         <dependency>
@@ -283,11 +184,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
         </dependency>
@@ -297,13 +193,6 @@
             <artifactId>awaitility</artifactId>
             <version>4.0.2</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <version>4.8.0</version>
-        </dependency>
-
 
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -325,24 +214,6 @@
 
         <dependency>
             <groupId>org.testcontainers</groupId>
-            <artifactId>mssqlserver</artifactId>
-            <version>${testcontainers.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>kafka</artifactId>
-            <version>${testcontainers.version}</version>
-        </dependency>
-
-        <!--        <dependency>-->
-        <!--            <groupId>org.testcontainers</groupId>-->
-        <!--            <artifactId>rabbitmq</artifactId>-->
-        <!--            <version>${testcontainers.version}</version>-->
-        <!--        </dependency>-->
-
-        <dependency>
-            <groupId>org.testcontainers</groupId>
             <artifactId>mockserver</artifactId>
             <version>${testcontainers.version}</version>
         </dependency>
@@ -353,25 +224,11 @@
             <version>3.10.8</version>
         </dependency>
 
-        <!-- убираю так как юзаем mockito-inline       -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.mockito</groupId>-->
-        <!--            <artifactId>mockito-core</artifactId>-->
-        <!--            <version>${mockito.version}</version>-->
-        <!--            <scope>test</scope>-->
-        <!--        </dependency>-->
-
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-inline</artifactId>
             <version>${mockito.inline.version}</version>
         </dependency>
-
-        <!--        <dependency>-->
-        <!--            <groupId>org.mockito</groupId>-->
-        <!--            <artifactId>mockito-junit-jupiter</artifactId>-->
-        <!--            <version>${mockito.version}</version>-->
-        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.testcontainers</groupId>
@@ -386,45 +243,10 @@
             <version>4.13</version>
         </dependency>
 
-        <!-- JUnit 5 -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- Тесты JUnit 5 с параметрами -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-params</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- JUnit 5 Vintage для запуска тестов JUnit 4 -->
-        <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- JUnit Launcher для запуска тестов в IntelliJ -->
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            <scope>test</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>3.4.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka-test</artifactId>
         </dependency>
 
         <dependency>
@@ -438,45 +260,9 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.json</groupId>
-            <artifactId>javax.json-api</artifactId>
-            <version>1.1.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.json</artifactId>
-            <version>1.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.rnorth.duct-tape</groupId>
-            <artifactId>duct-tape</artifactId>
-            <version>1.0.8</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.mock-server</groupId>
             <artifactId>mockserver-netty</artifactId>
             <version>3.10.8</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>su.atb.msfl</groupId>
-            <artifactId>common-mq</artifactId>
-            <version>1.0.0</version>
-            <!--            <scope>test</scope>-->
         </dependency>
 
     </dependencies>
@@ -559,11 +345,6 @@
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
                         </path>
-<!--                        <path>-->
-<!--                            <groupId>org.mapstruct</groupId>-->
-<!--                            <artifactId>mapstruct-processor</artifactId>-->
-<!--                            <version>1.5.5.Final</version>-->
-<!--                        </path>-->
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>

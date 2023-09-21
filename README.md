@@ -72,3 +72,5 @@ While implementing your solution **please take care of the following requirement
 :scroll: **END** 
 
 ## Let's assume that medicine is always unique (combination of weight and name) and there’s no need to check if it exists in DB or not
+
+for simplification of the test app PSQL used for logging storage, in a real project its better to use kafka with infinite retention or elastic  

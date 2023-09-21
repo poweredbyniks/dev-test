@@ -11,8 +11,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -57,17 +55,6 @@ public class TestConfig {
         config.setMaximumPoolSize(10);
         config.setMinimumIdle(5);
         return new HikariDataSource(config);
-    }
-
-
-    @Bean
-    public MessageConverter jsonMessageConverter() {
-        return new Jackson2JsonMessageConverter();
-    }
-
-    @Bean
-    public MessageConverter jsonMessageConverter(@Qualifier("commonObjectMapper") ObjectMapper objectMapper) {
-        return new Jackson2JsonMessageConverter(objectMapper);
     }
 
     @Bean
