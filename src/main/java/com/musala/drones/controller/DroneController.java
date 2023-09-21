@@ -6,7 +6,6 @@ import com.musala.drones.service.DroneService;
 import com.musala.drones.util.ProcessIdUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,11 +32,19 @@ public class DroneController {
         this.droneService = droneService;
     }
 
+    @GetMapping("${service.mapping.get-drones}")
+    public ResponseEntity<List<DroneDto>> findAllDrones(@RequestHeader(required = false) String processId) {
+        MDC.put(PROCESS_ID_HEADER_NAME, ProcessIdUtil.checkAndGenerateProcessId(processId));
+        log.info("Received GET request /v1/drones request");
+        final List<DroneDto> drones = droneService.handleFindAllDrones();
+        return new ResponseEntity<>(drones, HttpStatus.OK);
+    }
+
     @GetMapping("${service.mapping.get-all-available-drones}")
     public ResponseEntity<List<DroneDto>> findAllAvailableDrones(@RequestHeader(required = false) String processId) {
         MDC.put(PROCESS_ID_HEADER_NAME, ProcessIdUtil.checkAndGenerateProcessId(processId));
         log.info("Received GET request /v1/available-drones request");
-        final List<DroneDto> drones = droneService.handleFindAllDrones();
+        final List<DroneDto> drones = droneService.handleFindAllAvailableDrones();
         return new ResponseEntity<>(drones, HttpStatus.OK);
     }
 
